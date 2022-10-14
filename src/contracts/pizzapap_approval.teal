@@ -1,0 +1,103 @@
+#pragma version 6
+txn ApplicationID
+int 0
+==
+bnz main_l6
+txn OnCompletion
+int DeleteApplication
+==
+bnz main_l5
+txna ApplicationArgs 0
+byte "confirm"
+==
+bnz main_l4
+err
+main_l4:
+txn Sender
+global CreatorAddress
+==
+byte "STATUS"
+app_global_get
+int 0
+==
+&&
+assert
+byte "STATUS"
+int 1
+app_global_put
+int 1
+return
+main_l5:
+txn Sender
+global CreatorAddress
+==
+return
+main_l6:
+global GroupSize
+int 2
+==
+txn GroupIndex
+int 0
+==
+&&
+txn Note
+byte "pizza-pap:uv1"
+==
+&&
+txn NumAppArgs
+int 8
+==
+&&
+txna ApplicationArgs 7
+btoi
+int 0
+>
+&&
+gtxn 1 TypeEnum
+int pay
+==
+&&
+gtxn 1 Receiver
+addr KEQ7JW4KCRSHVVJTC5IG26LX2GHR7ZCUWQCC2AASKGDI35WLPJMFQLIIWQ
+==
+&&
+gtxn 1 Amount
+txna ApplicationArgs 7
+btoi
+==
+&&
+gtxn 1 Sender
+gtxn 0 Sender
+==
+&&
+assert
+byte "FLAVOR"
+txna ApplicationArgs 0
+app_global_put
+byte "SIZE"
+txna ApplicationArgs 1
+app_global_put
+byte "CRUST"
+txna ApplicationArgs 2
+app_global_put
+byte "TOPPINGS"
+txna ApplicationArgs 3
+app_global_put
+byte "NAME"
+txna ApplicationArgs 4
+app_global_put
+byte "NUMBER"
+txna ApplicationArgs 5
+app_global_put
+byte "LOCATION"
+txna ApplicationArgs 6
+app_global_put
+byte "TOTAL"
+txna ApplicationArgs 7
+btoi
+app_global_put
+byte "STATUS"
+int 0
+app_global_put
+int 1
+return

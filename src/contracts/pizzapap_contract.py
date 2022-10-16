@@ -26,14 +26,22 @@ class Pizza:
         toppings = Txn.application_args[3]
         return Seq([
             price.store(Int(0)),
+            # checks the size of pizza chosen and then add the price to the scratchVar price
+            # reverts if size doesn't match any of the available sizes
             Cond([size == Bytes("large"), price.store(price.load() + Int(2000000))],
                  [size == Bytes("medium"), price.store(price.load() + Int(1500000))],
                  [size == Bytes("small"), price.store(price.load() + Int(1000000))],
             ),
+            # checks the crust of pizza chosen and then add the price to the scratchVar price
+            # reverts if the desired crust doesn't match any of the options available
             Cond([crust == Bytes("Crispy"), price.store(price.load() + Int(500000))],
                  [crust == Bytes("Stuffed"), price.store(price.load() + Int(500000))],
                  [crust == Bytes("Gluten-free"), price.store(price.load() + Int(300000))]
             ),
+            # checks if any toppings have been selected, then depending on the amount of toppings chosen,
+            # the price is added to the scratchVar price
+            # The number of toppings are calculated based off the length of each topping with consideration of the ", "
+            #  used to join multiple toppings on the frontend
             Cond([Len(toppings) == Int(0), price.store(price.load() + Int(0))],
                  [Len(toppings) == Int(7), price.store(price.load() + Int(100000))],
                  [Len(toppings) == Int(14), price.store(price.load() + Int(200000))],

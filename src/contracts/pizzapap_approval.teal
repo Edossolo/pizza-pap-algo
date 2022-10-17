@@ -33,6 +33,73 @@ global CreatorAddress
 ==
 return
 main_l6:
+int 0
+store 0
+txna ApplicationArgs 1
+byte "large"
+==
+bnz main_l29
+txna ApplicationArgs 1
+byte "medium"
+==
+bnz main_l28
+txna ApplicationArgs 1
+byte "small"
+==
+bnz main_l10
+err
+main_l10:
+load 0
+int 1000000
++
+store 0
+main_l11:
+txna ApplicationArgs 2
+byte "Crispy"
+==
+bnz main_l27
+txna ApplicationArgs 2
+byte "Stuffed"
+==
+bnz main_l26
+txna ApplicationArgs 2
+byte "Gluten-free"
+==
+bnz main_l15
+err
+main_l15:
+load 0
+int 300000
++
+store 0
+main_l16:
+txna ApplicationArgs 3
+len
+int 0
+==
+bnz main_l25
+txna ApplicationArgs 3
+len
+int 7
+==
+bnz main_l24
+txna ApplicationArgs 3
+len
+int 14
+==
+bnz main_l23
+txna ApplicationArgs 3
+len
+int 24
+==
+bnz main_l21
+err
+main_l21:
+load 0
+int 300000
++
+store 0
+main_l22:
 global GroupSize
 int 2
 ==
@@ -50,8 +117,8 @@ int 8
 &&
 txna ApplicationArgs 7
 btoi
-int 0
->
+load 0
+==
 &&
 gtxn 1 TypeEnum
 int pay
@@ -101,3 +168,45 @@ int 0
 app_global_put
 int 1
 return
+main_l23:
+load 0
+int 200000
++
+store 0
+b main_l22
+main_l24:
+load 0
+int 100000
++
+store 0
+b main_l22
+main_l25:
+load 0
+int 0
++
+store 0
+b main_l22
+main_l26:
+load 0
+int 500000
++
+store 0
+b main_l16
+main_l27:
+load 0
+int 500000
++
+store 0
+b main_l16
+main_l28:
+load 0
+int 1500000
++
+store 0
+b main_l11
+main_l29:
+load 0
+int 2000000
++
+store 0
+b main_l11

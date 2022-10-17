@@ -58,6 +58,7 @@ export const createOrderAction = async (senderAddress, orderDetails) => {
   let location = new TextEncoder().encode(orderDetails.location);
   let total = algosdk.encodeUint64(orderDetails.total);
 
+  console.log(total, orderDetails.total);
   let appArgs = [
     flavor,
     size,

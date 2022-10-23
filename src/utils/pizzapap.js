@@ -39,7 +39,7 @@ const compileProgram = async (programSource) => {
 
 // CREATE Order: ApplicationCreateTxn
 export const createOrderAction = async (senderAddress, orderDetails) => {
-  console.log("Creating order...");
+  
 
   let params = await algodClient.getTransactionParams().do();
 
@@ -102,7 +102,7 @@ export const createOrderAction = async (senderAddress, orderDetails) => {
   let signedTxn = await myAlgoConnect.signTransaction(
     txnArray.map((txn) => txn.toByte())
   );
-  console.log("Signed group transaction");
+  
   let tx = await algodClient
     .sendRawTransaction(signedTxn.map((txn) => txn.blob))
     .do();
@@ -111,17 +111,12 @@ export const createOrderAction = async (senderAddress, orderDetails) => {
   let confirmedTxn = await algosdk.waitForConfirmation(algodClient, tx.txId, 4);
 
   // Notify about completion
-  console.log(
-    "Group transaction " +
-      tx.txId +
-      " confirmed in round " +
-      confirmedTxn["confirmed-round"]
-  );
+  
 };
 
 // CONFIRM ORDER: ApplicationCallTxn
 export const confirmOrderAction = async (senderAddress, pizza) => {
-  console.log("Confirming your order");
+  
 
   let params = await algodClient.getTransactionParams().do();
 
@@ -143,31 +138,26 @@ export const confirmOrderAction = async (senderAddress, pizza) => {
 
   // Sign & submit the transaction
   let signedTxn = await myAlgoConnect.signTransaction(txn.toByte());
-  console.log("Signed transaction with txID: %s", txId);
+  
   await algodClient.sendRawTransaction(signedTxn.blob).do();
 
   // Wait for transaction to be confirmed
   const confirmedTxn = await algosdk.waitForConfirmation(algodClient, txId, 4);
 
   // Get the completed Transaction
-  console.log(
-    "Transaction " +
-      txId +
-      " confirmed in round " +
-      confirmedTxn["confirmed-round"]
-  );
+  
 
   // Get application id of deleted application and notify about completion
   let transactionResponse = await algodClient
     .pendingTransactionInformation(txId)
     .do();
   let appId = transactionResponse["txn"]["txn"].apid;
-  console.log("Deleted app-id: ", appId);
+  
 };
 
 // DELETE Order: ApplicationDeleteTxn
 export const deleteOrderAction = async (senderAddress, index) => {
-  console.log("Deleting application...");
+  
 
   let params = await algodClient.getTransactionParams().do();
 
@@ -183,31 +173,26 @@ export const deleteOrderAction = async (senderAddress, index) => {
 
   // Sign & submit the transaction
   let signedTxn = await myAlgoConnect.signTransaction(txn.toByte());
-  console.log("Signed transaction with txID: %s", txId);
+  
   await algodClient.sendRawTransaction(signedTxn.blob).do();
 
   // Wait for transaction to be confirmed
   const confirmedTxn = await algosdk.waitForConfirmation(algodClient, txId, 4);
 
   // Get the completed Transaction
-  console.log(
-    "Transaction " +
-      txId +
-      " confirmed in round " +
-      confirmedTxn["confirmed-round"]
-  );
+  
 
   // Get application id of deleted application and notify about completion
   let transactionResponse = await algodClient
     .pendingTransactionInformation(txId)
     .do();
   let appId = transactionResponse["txn"]["txn"].apid;
-  console.log("Deleted app-id: ", appId);
+  
 };
 
 // GET ORDERS: Use indexer
 export const getOrdersAction = async (senderAddress) => {
-  console.log("Fetching orders...");
+  
   let note = new TextEncoder().encode(pizzapapNote);
   let encodedNote = Buffer.from(note).toString("base64");
 
@@ -231,7 +216,7 @@ export const getOrdersAction = async (senderAddress) => {
       }
     }
   }
-  console.log("Orders fetched.");
+  
   return orders;
 };
 
